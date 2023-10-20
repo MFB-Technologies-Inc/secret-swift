@@ -75,6 +75,7 @@ enum MultiCaseAssociatedValueEnum: Hashable {
     case secretB(String)
 }
 
+@available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
 actor SinglePropertyActor: Hashable {
     var value: String = "SECRET_VALUE"
 
@@ -87,6 +88,7 @@ actor SinglePropertyActor: Hashable {
     }
 }
 
+@available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
 actor MultiPropertyActor: Hashable {
     var valueA: String = "SECRET_VALUE_A"
     let valueB: Bool = false

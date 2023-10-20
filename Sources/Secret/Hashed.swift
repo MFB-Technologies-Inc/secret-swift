@@ -101,3 +101,78 @@ extension Hashed: Identifiable where T: Identifiable {
     /// passthrough ``wrappedValue``s ``Identifiable`` conformance.
     public var id: T.ID { wrappedValue.id }
 }
+
+extension Hashed: ExpressibleByUnicodeScalarLiteral where T: ExpressibleByUnicodeScalarLiteral {
+    public init(unicodeScalarLiteral value: T.UnicodeScalarLiteralType) {
+        self.init(T(unicodeScalarLiteral: value))
+    }
+}
+
+extension Hashed: ExpressibleByExtendedGraphemeClusterLiteral where T: ExpressibleByExtendedGraphemeClusterLiteral {
+    public init(extendedGraphemeClusterLiteral value: T.ExtendedGraphemeClusterLiteralType) {
+        self.init(T(extendedGraphemeClusterLiteral: value))
+    }
+}
+
+extension Hashed: ExpressibleByStringLiteral where T: ExpressibleByStringLiteral {
+    public init(stringLiteral value: T.StringLiteralType) {
+        self.init(T(stringLiteral: value))
+    }
+}
+
+extension Hashed: ExpressibleByStringInterpolation where T: ExpressibleByStringInterpolation {
+    public init(stringInterpolation: T.StringInterpolation) {
+        self.init(T(stringInterpolation: stringInterpolation))
+    }
+}
+
+extension Hashed: ExpressibleByNilLiteral where T: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self.init(T(nilLiteral: nilLiteral))
+    }
+}
+
+extension Hashed: ExpressibleByFloatLiteral where T: ExpressibleByFloatLiteral {
+    public init(floatLiteral value: T.FloatLiteralType) {
+        self.init(T(floatLiteral: value))
+    }
+}
+
+extension Hashed: ExpressibleByIntegerLiteral where T: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: T.IntegerLiteralType) {
+        self.init(T(integerLiteral: value))
+    }
+}
+
+extension Hashed: ExpressibleByDictionaryLiteral where T: ExpressibleByDictionaryLiteral {
+    public init(dictionaryLiteral elements: (T.Key, T.Value)...) {
+        let transform = unsafeBitCast(
+            T.init(dictionaryLiteral:) as ((T.Key, T.Value)...) -> T,
+            to: (([(T.Key, T.Value)]) -> T).self
+        )
+        self.init(transform(elements))
+    }
+}
+
+extension Hashed: LosslessStringConvertible where T: LosslessStringConvertible {
+    public init?(_ description: String) {
+        guard let wrapped = T(description) else {
+            return nil
+        }
+        self.init(wrapped)
+    }
+}
+
+extension Hashed: AdditiveArithmetic where T: AdditiveArithmetic {
+    public static var zero: Hashed<T> {
+        self.init(T.zero)
+    }
+
+    public static func + (lhs: Hashed<T>, rhs: Hashed<T>) -> Hashed<T> {
+        self.init(lhs.wrappedValue + rhs.wrappedValue)
+    }
+
+    public static func - (lhs: Hashed<T>, rhs: Hashed<T>) -> Hashed<T> {
+        self.init(lhs.wrappedValue - rhs.wrappedValue)
+    }
+}

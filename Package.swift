@@ -10,16 +10,21 @@ let package = Package(
     targets: [
         .target(
             name: "Secret",
-            swiftSettings: settings
+            swiftSettings: swiftSettings
         ),
         .testTarget(
             name: "SecretTests",
             dependencies: ["Secret"],
-            swiftSettings: settings
+            swiftSettings: swiftSettings
         ),
     ]
 )
 
-let settings: [SwiftSetting] = [
-    .enableExperimentalFeature("StrictConcurrency"),
+let swiftSettings: [SwiftSetting] = [
+    .enableUpcomingFeature("BareSlashRegexLiterals"),
+    .enableUpcomingFeature("ConciseMagicFile"),
+    .enableUpcomingFeature("ExistentialAny"),
+    .enableUpcomingFeature("ForwardTrailingClosures"),
+    .enableUpcomingFeature("ImplicitOpenExistentials"),
+    .enableUpcomingFeature("StrictConcurrency"),
 ]

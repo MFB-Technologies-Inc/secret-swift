@@ -55,11 +55,13 @@ final class RedactedDebugDescriptionTests: XCTestCase {
         XCTAssertEqual(value.debugDescription, "MultiCaseAssociatedValueEnum: REDACTED")
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testSinglePropertyActor() throws {
         let value = Redacted(SinglePropertyActor())
         XCTAssertEqual(value.debugDescription, "SinglePropertyActor: REDACTED")
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testMultiPropertyActor() throws {
         let value = Redacted(MultiPropertyActor())
         XCTAssertEqual(value.debugDescription, "MultiPropertyActor: REDACTED")

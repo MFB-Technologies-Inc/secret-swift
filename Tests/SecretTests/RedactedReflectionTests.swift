@@ -163,6 +163,7 @@ final class RedactedReflectionTests: XCTestCase {
         }
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testSinglePropertyActor() throws {
         let value = Redacted(SinglePropertyActor())
         let mirror = Mirror(reflecting: value)
@@ -180,6 +181,7 @@ final class RedactedReflectionTests: XCTestCase {
         }
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testMultiPropertyActor() throws {
         let value = Redacted(MultiPropertyActor())
         let mirror = Mirror(reflecting: value)

@@ -106,3 +106,78 @@ extension Redacted: Sendable where T: Sendable {}
 extension Redacted: Identifiable where T: Identifiable {
     public var id: T.ID { wrappedValue.id }
 }
+
+extension Redacted: ExpressibleByUnicodeScalarLiteral where T: ExpressibleByUnicodeScalarLiteral {
+    public init(unicodeScalarLiteral value: T.UnicodeScalarLiteralType) {
+        self.init(T(unicodeScalarLiteral: value))
+    }
+}
+
+extension Redacted: ExpressibleByExtendedGraphemeClusterLiteral where T: ExpressibleByExtendedGraphemeClusterLiteral {
+    public init(extendedGraphemeClusterLiteral value: T.ExtendedGraphemeClusterLiteralType) {
+        self.init(T(extendedGraphemeClusterLiteral: value))
+    }
+}
+
+extension Redacted: ExpressibleByStringLiteral where T: ExpressibleByStringLiteral {
+    public init(stringLiteral value: T.StringLiteralType) {
+        self.init(T(stringLiteral: value))
+    }
+}
+
+extension Redacted: ExpressibleByStringInterpolation where T: ExpressibleByStringInterpolation {
+    public init(stringInterpolation: T.StringInterpolation) {
+        self.init(T(stringInterpolation: stringInterpolation))
+    }
+}
+
+extension Redacted: ExpressibleByNilLiteral where T: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self.init(T(nilLiteral: nilLiteral))
+    }
+}
+
+extension Redacted: ExpressibleByFloatLiteral where T: ExpressibleByFloatLiteral {
+    public init(floatLiteral value: T.FloatLiteralType) {
+        self.init(T(floatLiteral: value))
+    }
+}
+
+extension Redacted: ExpressibleByIntegerLiteral where T: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: T.IntegerLiteralType) {
+        self.init(T(integerLiteral: value))
+    }
+}
+
+extension Redacted: ExpressibleByDictionaryLiteral where T: ExpressibleByDictionaryLiteral {
+    public init(dictionaryLiteral elements: (T.Key, T.Value)...) {
+        let transform = unsafeBitCast(
+            T.init(dictionaryLiteral:) as ((T.Key, T.Value)...) -> T,
+            to: (([(T.Key, T.Value)]) -> T).self
+        )
+        self.init(transform(elements))
+    }
+}
+
+extension Redacted: LosslessStringConvertible where T: LosslessStringConvertible {
+    public init?(_ description: String) {
+        guard let wrapped = T(description) else {
+            return nil
+        }
+        self.init(wrapped)
+    }
+}
+
+extension Redacted: AdditiveArithmetic where T: AdditiveArithmetic {
+    public static var zero: Redacted<T> {
+        self.init(T.zero)
+    }
+
+    public static func + (lhs: Redacted<T>, rhs: Redacted<T>) -> Redacted<T> {
+        self.init(lhs.wrappedValue + rhs.wrappedValue)
+    }
+
+    public static func - (lhs: Redacted<T>, rhs: Redacted<T>) -> Redacted<T> {
+        self.init(lhs.wrappedValue - rhs.wrappedValue)
+    }
+}

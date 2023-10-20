@@ -55,11 +55,13 @@ final class HashedDescriptionTests: XCTestCase {
         XCTAssertEqual(value.description, value.wrappedValue.hashValue.description)
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testSinglePropertyActor() throws {
         let value = Hashed(SinglePropertyActor())
         XCTAssertEqual(value.description, value.wrappedValue.hashValue.description)
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testMultiPropertyActor() throws {
         let value = Hashed(MultiPropertyActor())
         XCTAssertEqual(value.description, value.wrappedValue.hashValue.description)

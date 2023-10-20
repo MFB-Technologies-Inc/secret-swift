@@ -181,6 +181,7 @@ final class HashedReflectionTests: XCTestCase {
         XCTAssertEqual(value.wrappedValue.hashValue, hash)
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testSinglePropertyActor() async throws {
         let value = Hashed(SinglePropertyStruct())
         let mirror = Mirror(reflecting: value)
@@ -200,6 +201,7 @@ final class HashedReflectionTests: XCTestCase {
         XCTAssertEqual(value.wrappedValue.hashValue, hash)
     }
 
+    @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
     func testMultiPropertyActor() throws {
         let value = Hashed(SinglePropertyStruct())
         let mirror = Mirror(reflecting: value)
