@@ -11,7 +11,7 @@ on:
 
 jobs:
   lint:
-    runs-on: macos-13
+    runs-on: macos-14
     environment: default
     steps:
       - uses: actions/checkout@v3
@@ -24,7 +24,7 @@ jobs:
       - name: Lint
         run: swiftlint lint --quiet
   macos-test:
-    runs-on: macos-13
+    runs-on: macos-14
     environment: default
     strategy:
       matrix:
