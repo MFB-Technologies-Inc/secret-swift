@@ -19,6 +19,8 @@ jobs:
         run: swiftformat --version
       - name: Format lint
         run: swiftformat --lint .
+      - name: Install SwiftLint
+        run: brew install swiftlint
       - name: SwiftLint version
         run: swiftlint --version
       - name: Lint
