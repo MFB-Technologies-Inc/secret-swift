@@ -18,6 +18,11 @@ public struct Redacted<T> {
     /// Enabled by default, when encoding, replace the ``wrappedValue`` with "REDACTED".
     public let obscureEncoding: Bool
 
+    public init(wrappedValue: T, obscureEncoding: Bool = true) {
+        self.wrappedValue = wrappedValue
+        self.obscureEncoding = obscureEncoding
+    }
+
     public init(_ wrappedValue: T, obscureEncoding: Bool = true) {
         self.wrappedValue = wrappedValue
         self.obscureEncoding = obscureEncoding
