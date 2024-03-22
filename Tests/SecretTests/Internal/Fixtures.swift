@@ -6,11 +6,11 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-struct SinglePropertyStruct: Hashable {
+struct SinglePropertyStruct: Hashable, Codable {
     var value: String = "SECRET_VALUE"
 }
 
-struct MultiPropertyStruct: Hashable {
+struct MultiPropertyStruct: Hashable, Codable {
     var valueA: String = "SECRET_VALUE_A"
     let valueB: Bool = false
     var _valueC: Int = -1
@@ -24,7 +24,7 @@ struct MultiPropertyStruct: Hashable {
     }
 }
 
-class SinglePropertyClass: Hashable {
+class SinglePropertyClass: Hashable, Codable {
     var value: String = "SECRET_VALUE"
 
     func hash(into hasher: inout Hasher) {
@@ -42,9 +42,13 @@ class SinglePropertySubClass: SinglePropertyClass {
         super.init()
         value = "SUBCLASS_SECRET_VALUE"
     }
+
+    required init(from decoder: any Decoder) throws {
+        try super.init(from: decoder)
+    }
 }
 
-final class SinglePropertyFinalClass: Hashable {
+final class SinglePropertyFinalClass: Hashable, Codable {
     var value: String = "SECRET_VALUE"
 
     func hash(into hasher: inout Hasher) {
@@ -57,20 +61,20 @@ final class SinglePropertyFinalClass: Hashable {
     }
 }
 
-enum SingleCaseEnum: Hashable {
+enum SingleCaseEnum: Hashable, Codable {
     case secret
 }
 
-enum MultiCaseEnum: Hashable {
+enum MultiCaseEnum: Hashable, Codable {
     case secretA
     case secretB
 }
 
-enum SingleCaseAssociatedValueEnum: Hashable {
+enum SingleCaseAssociatedValueEnum: Hashable, Codable {
     case secret(String)
 }
 
-enum MultiCaseAssociatedValueEnum: Hashable {
+enum MultiCaseAssociatedValueEnum: Hashable, Codable {
     case secretA(String)
     case secretB(String)
 }
