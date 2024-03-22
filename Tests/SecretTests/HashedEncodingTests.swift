@@ -82,4 +82,24 @@ final class HashedEncodingTests: XCTestCase {
         let expectedString = value.wrappedValue.hashValue.description
         XCTAssertEqual(encodedString, expectedString)
     }
+
+    func testHashedContainer() throws {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let value = HashedContainer()
+        let encoded = try encoder.encode(value)
+        let encodedString = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        let expectedString = "{\"nonSecretValue\":\"Non-Secret\",\"secretValue\":\(value.secretValue.hashValue)}"
+        XCTAssertEqual(encodedString, expectedString)
+    }
+
+    func testHashedDecodableContainer() throws {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let value = HashedDecodableContainer()
+        let encoded = try encoder.encode(value)
+        let encodedString = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        let expectedString = "{\"nonSecretValue\":\"Non-Secret\",\"secretValue\":\(value.secretValue.hashValue)}"
+        XCTAssertEqual(encodedString, expectedString)
+    }
 }

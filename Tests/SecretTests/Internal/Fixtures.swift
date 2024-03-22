@@ -6,6 +6,8 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
+import Secret
+
 struct SinglePropertyStruct: Hashable, Codable {
     var value: String = "SECRET_VALUE"
 }
@@ -115,4 +117,28 @@ actor MultiPropertyActor: Hashable {
     static func == (_: MultiPropertyActor, _: MultiPropertyActor) -> Bool {
         true
     }
+}
+
+/// Will fail to decode after encode since the encoded value for `secretValue` will be `Int`
+/// but will be expecting a `String`
+struct HashedContainer: Hashable, Sendable, Codable {
+    @Hashed var secretValue: String = "Secret"
+    var nonSecretValue: String = "Non-Secret"
+}
+
+struct HashedDecodableContainer: Hashable, Sendable, Codable {
+    @Hashed var secretValue: Int = 9
+    var nonSecretValue: String = "Non-Secret"
+}
+
+/// Will fail to decode after encode since the encoded value for `secretValue` will be `String`
+/// but will be expecting an `Int`
+struct RedactedContainer: Hashable, Sendable, Codable {
+    @Redacted var secretValue: Int = 9
+    var nonSecretValue: String = "Non-Secret"
+}
+
+struct RedactedDecodableContainer: Hashable, Sendable, Codable {
+    @Redacted var secretValue: String = "Secret"
+    var nonSecretValue: String = "Non-Secret"
 }

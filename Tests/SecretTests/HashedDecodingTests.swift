@@ -91,4 +91,18 @@ final class HashedDecodingTests: XCTestCase {
         let decodedHashed = try JSONDecoder().decode(valueType, from: encoded)
         XCTAssertEqual(decodedHashed, value)
     }
+
+    func testHashedContainer() throws {
+        let value = HashedContainer()
+        let encoded = try JSONEncoder().encode(value)
+        try XCTAssertThrowsError(JSONDecoder().decode(HashedContainer.self, from: encoded))
+    }
+
+    func testHashedDecodableContainer() throws {
+        let value = HashedDecodableContainer()
+        let encoded = try JSONEncoder().encode(value)
+        let decodedHashed = try JSONDecoder().decode(HashedDecodableContainer.self, from: encoded)
+        XCTAssertNotEqual(decodedHashed.secretValue, value.secretValue)
+        XCTAssertEqual(decodedHashed.nonSecretValue, value.nonSecretValue)
+    }
 }

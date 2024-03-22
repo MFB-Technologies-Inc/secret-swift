@@ -220,4 +220,25 @@ final class HashedReflectionTests: XCTestCase {
         }
         XCTAssertEqual(value.wrappedValue.hashValue, hash)
     }
+
+    func testHashedContainer() throws {
+        // TODO: Pickup here next time
+        fatalError()
+        let value = Hashed(HashedContainer())
+        let mirror = Mirror(reflecting: value)
+        if let displayStyle = mirror.displayStyle {
+            XCTFail(
+                "Mirror.displayStyle was expected to be `nil` but was \(displayStyle.description) instead"
+            )
+        }
+        guard mirror.children.count == 1 else {
+            XCTFail("Expected 1 child but found \(mirror.children.count)")
+            return
+        }
+        guard let hash = mirror.children.first?.value as? Int else {
+            XCTFail("Failed to case child to Int")
+            return
+        }
+        XCTAssertEqual(value.wrappedValue.hashValue, hash)
+    }
 }

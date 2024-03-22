@@ -82,4 +82,24 @@ final class RedactedEncodingTests: XCTestCase {
         let expectedString = "\"REDACTED\""
         XCTAssertEqual(encodedString, expectedString)
     }
+
+    func testRedactedContainer() throws {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let value = RedactedContainer()
+        let encoded = try encoder.encode(value)
+        var encodedString = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        let expectedString = "{\"nonSecretValue\":\"Non-Secret\",\"secretValue\":\"REDACTED\"}"
+        XCTAssertEqual(encodedString, expectedString)
+    }
+
+    func testRedactedDecodableContainer() throws {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let value = RedactedDecodableContainer()
+        let encoded = try encoder.encode(value)
+        let encodedString = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        let expectedString = "{\"nonSecretValue\":\"Non-Secret\",\"secretValue\":\"REDACTED\"}"
+        XCTAssertEqual(encodedString, expectedString)
+    }
 }

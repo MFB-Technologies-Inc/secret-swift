@@ -91,4 +91,18 @@ final class RedactedDecodingTests: XCTestCase {
         let decodedRedacted = try JSONDecoder().decode(valueType, from: encoded)
         XCTAssertEqual(decodedRedacted, value)
     }
+
+    func testRedactedContainer() throws {
+        let value = RedactedContainer()
+        let encoded = try JSONEncoder().encode(value)
+        try XCTAssertThrowsError(JSONDecoder().decode(RedactedContainer.self, from: encoded))
+    }
+
+    func testRedactedDecodableContainer() throws {
+        let value = RedactedDecodableContainer()
+        let encoded = try JSONEncoder().encode(value)
+        let decodedRedacted = try JSONDecoder().decode(RedactedDecodableContainer.self, from: encoded)
+        XCTAssertNotEqual(decodedRedacted.secretValue, value.secretValue)
+        XCTAssertEqual(decodedRedacted.nonSecretValue, value.nonSecretValue)
+    }
 }
