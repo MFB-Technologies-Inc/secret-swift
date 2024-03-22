@@ -26,5 +26,5 @@ let swiftSettings: [SwiftSetting] = [
     .enableUpcomingFeature("ExistentialAny"),
     .enableUpcomingFeature("ForwardTrailingClosures"),
     .enableUpcomingFeature("ImplicitOpenExistentials"),
-    .enableUpcomingFeature("StrictConcurrency"),
+    .enableExperimentalFeature("StrictConcurrency"),
 ]
